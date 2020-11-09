@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class CustomersController extends Controller
@@ -13,7 +14,8 @@ class CustomersController extends Controller
    */
   public function index()
   {
-    //
+    $customers = User::select('users.id', 'users.name', 'users.email')->where('roles.name', 'Cliente')->join('model_has_roles', 'users.id', 'model_has_roles.model_id')->join('roles', 'model_has_roles.role_id', 'roles.id')->get();
+    return view('customers', compact('customers'));
   }
 
   /**

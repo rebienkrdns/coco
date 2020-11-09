@@ -28,6 +28,8 @@ Route::group(["middleware" => ["web", "auth"]], function () {
 Route::group(["middleware" => ["web", "auth", "role:Cliente"]], function () {
   Route::resource('files', 'FilesController');
   Route::get('/file/{file}', 'FilesController@get');
+
+  Route::get('account/plan/update/{id}', 'AccountController@updatePlan');
 });
 
 Route::group(["middleware" => ["web", "auth", "role:Administrador"]], function () {

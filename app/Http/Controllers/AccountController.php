@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CustomerPlan;
+use App\Models\TimeLapse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +17,8 @@ class AccountController extends Controller
    */
   public function index()
   {
-    return view('account');
+    $plans = TimeLapse::all();
+    return view('account', compact('plans'));
   }
 
   /**
@@ -78,6 +81,18 @@ class AccountController extends Controller
     ]);
 
     session()->flash('success', 'Datos de usuario modificados correctamente!');
+    return back();
+  }
+
+  public function updatePlan($id){
+    CustomerPlan::where('id_user', Auth::user()->id)->delete();
+
+    CustomerPlan::create([
+      'id_user' => Auth::user()->id,
+      'id_time_lapse' => $id
+    ]);
+
+    session()->flash('success', 'Plan actualizado correctamente!');
     return back();
   }
 

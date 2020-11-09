@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Coco') }}</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport'/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
@@ -160,6 +160,21 @@
 <script src="../assets/js/material-dashboard.min.js?v=2.1.2" type="text/javascript"></script>
 <script>
     $(document).ready(function () {
+
+        @if(session()->has('success'))
+        $.notify({
+            icon: "check",
+            message: "{{ session('success') }}"
+        }, {
+            type: 'success',
+            timer: 4000,
+            placement: {
+                from: 'top',
+                align: 'center'
+            }
+        });
+        @endif
+
         $().ready(function () {
             $sidebar = $('.sidebar');
 

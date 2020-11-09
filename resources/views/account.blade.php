@@ -3,25 +3,12 @@
 @section('content')
     <div class="content">
         <div class="container-fluid">
-
-            @if(session()->has('success'))
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Completado!</strong> {{ session('success') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
             <div class="row">
-                <div class="offset-md-2 col-md-4">
+                <div class="@role('Cliente') offset-md-2 @endrole @role('Administrador') offset-md-4 @endrole col-md-4">
                     <div class="card mt-5">
-                        <div class="card-header">Actualizar mis datos</div>
-
+                        <div class="card-header card-header-warning">
+                            <h4 class="card-title ">Actualizar mis datos</h4>
+                        </div>
                         <div class="card-body col-8 offset-2">
                             <form method="POST" action="{{ route('account.update', Auth::user()->id) }}">
                                 @csrf
@@ -83,8 +70,83 @@
                         </div>
                     </div>
                 </div>
+                @role('Cliente')
                 <div class="col-md-4">
+                    <div class="card mt-5">
+                        <div class="card-header card-header-success">
+                            <h4 class="card-title ">Cambiar mi plan</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead class=" text-primary">
+                                    <tr>
+                                        <th>
+                                            Titulo
+                                        </th>
+                                        <th>
+                                            Precio
+                                        </th>
+                                        <th>
+                                            Tiempo de almacenamiento
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($plans as $plan)
+                                        <tr>
+                                            <td>
+                                                @if(\App\Models\CustomerPlan::where('id_user', Auth::user()->id)->first()->id_time_lapse == $plan->id)
+                                                    <span class="badge badge-success"><a class="text-white"
+                                                                                         href="{{ url('account/plan/update') }}/{{ $plan->id }}">{{ $plan->title }}</a></span>
+                                                @else
+                                                    <span class="badge badge-info"><a class="text-white"
+                                                                                      href="{{ url('account/plan/update') }}/{{ $plan->id }}">{{ $plan->title }}</a></span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                {{ $plan->price }}
+                                            </td>
+                                            <td>
+                                                @switch($plan->days)
+                                                    @case(7)
+                                                    {{ "Una semana" }}
+                                                    @break
+                                                    @case(15)
+                                                    {{ "Quince días" }}
+                                                    @break
+                                                    @case(30)
+                                                    {{ "Un mes" }}
+                                                    @break
+                                                    @case(60)
+                                                    {{ "Dos meses" }}
+                                                    @break
+                                                    @case(90)
+                                                    {{ "Tres meses" }}
+                                                    @break
+                                                    @case(180)
+                                                    {{ "Seis meses" }}
+                                                    @break
+                                                    @case(365)
+                                                    {{ "Un año" }}
+                                                    @break
+                                                    @case(730)
+                                                    {{ "Dos años" }}
+                                                    @break
+                                                    @case(1095)
+                                                    {{ "Tres años" }}
+                                                    @break
+                                                @endswitch
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                @endrole
             </div>
         </div>
     </div>

@@ -18,6 +18,7 @@ class CreateTimeLapses extends Migration
       $table->string('title');
       $table->text('desc');
       $table->decimal('price');
+      $table->integer('days');
       $table->timestamps();
     });
   }

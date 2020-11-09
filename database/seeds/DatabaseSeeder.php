@@ -27,7 +27,8 @@ class DatabaseSeeder extends Seeder
     TimeLapse::create([
       'title' => 'básico',
       'desc' => 'Coco ofrece el plan básico, gratuitamente por una semana para que nuestros clientes puedan probar nuestra asombrosa plataforma.',
-      'price' => 0
+      'price' => 0,
+      'days' => 7
     ]);
 
     $admin = User::create([
